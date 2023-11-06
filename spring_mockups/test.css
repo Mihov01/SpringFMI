@@ -1,0 +1,304 @@
+/* Reset some default styles */
+body, h1, h2, p {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(180deg, #ffffff 0%, #0077b6 100%);
+    color: #333;
+}
+
+header {
+    background-color: #0077b6;
+    color: #fff;
+    padding: 20px 0;
+}
+
+header img {
+    width: 150px;
+}
+
+nav ul {
+    list-style: none;
+}
+
+nav li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+}
+
+main {
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+.Flight-Manager h1 {
+    font-size: 24px;
+    color: #fff;
+    margin-left: 850px;
+}
+
+.features {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.feature {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    text-align: center;
+}
+
+.feature h2 {
+    font-size: 24px;
+    color: #0077b6;
+}
+
+footer {
+    background-color: #0077b6;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Add the following styles to your test.css */
+
+/* Styles for the flight list */
+#flight-list {
+    max-height: 400px; /* Set a maximum height for the flight list */
+    overflow-y: scroll; /* Add a vertical scroll bar when content exceeds the max height */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.flight-item {
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    margin: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s;
+}
+
+.flight-item:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Customize scroll bar */
+#flight-list::-webkit-scrollbar {
+    width: 10px;
+}
+
+#flight-list::-webkit-scrollbar-thumb {
+    background-color: #0077b6;
+}
+
+#flight-list::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+}
+
+/* Additional styles for flights */
+.flight-item strong {
+    color: #0077b6;
+}
+
+.flight-item hr {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 10px 0;
+}
+
+/* Additional styles for the "Add New Flight" button */
+#add-flight {
+    background-color: #0077b6;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#add-flight:hover {
+    background-color: #005e91;
+}
+/* Add the following styles to your test.css */
+
+/* Styles for the passenger list */
+#passenger-list {
+    max-height: 400px;
+    overflow-y: scroll;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.passenger-item {
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    margin: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s;
+}
+
+.passenger-item:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Scroll bar customization */
+#passenger-list::-webkit-scrollbar {
+    width: 10px;
+}
+
+#passenger-list::-webkit-scrollbar-thumb {
+    background-color: #0077b6;
+}
+
+#passenger-list::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+}
+
+/* Additional styles for passengers */
+.passenger-item strong {
+    color: #0077b6;
+}
+
+.passenger-item hr {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 10px 0;
+}
+
+/* Additional styles for the "Add New Passenger" button */
+#add-passenger {
+    background-color: #0077b6;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#add-passenger:hover {
+    background-color: #005e91;
+}
+
+
+/* Add the following styles to your test.css */
+
+/* Styles for the crew list */
+#crew-list {
+    max-height: 400px;
+    overflow-y: scroll;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.crew-member-item {
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    margin: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s;
+}
+
+.crew-member-item:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Scroll bar customization */
+#crew-list::-webkit-scrollbar {
+    width: 10px;
+}
+
+#crew-list::-webkit-scrollbar-thumb {
+    background-color: #0077b6;
+}
+
+#crew-list::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+}
+
+/* Additional styles for crew members */
+.crew-member-item strong {
+    color: #0077b6;
+}
+
+.crew-member-item hr {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 10px 0;
+}
+
+/* Additional styles for the "Add New Crew Member" button */
+#add-crew-member {
+    background-color: #0077b6;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#add-crew-member:hover {
+    background-color: #005e91;
+}
+
+/* Add the following styles to your test.css */
+
+/* Additional styles for the "Manage User Roles" button */
+#manage-roles {
+    background-color: #0077b6;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.2s;
+}
+
+#manage-roles:hover {
+    background-color: #005e91;
+}
+
+/* Additional styles for the "Configure System Settings" button */
+#configure-settings {
+    background-color: #0077b6;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#configure-settings:hover {
+    background-color: #005e91;
+}

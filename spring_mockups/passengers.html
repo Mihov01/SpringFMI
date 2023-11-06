@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passengers - Flight Manager Web Application</title>
+    <link rel="stylesheet" href="test.css">
+</head>
+<body>
+    <header>
+        <section class="Flight-Manager">
+            <h1>Flight Manager</h1>
+        </section>
+        <img src="logo.jpeg" alt="Flight Manager Web Application Logo">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="flights.html">Flights</a></li>
+                <li><a href="passengers.html">Passengers</a></li>
+                <li><a href="crew.html">Crew</a></li>
+                <li><a href="admin.html">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="functionality">
+            <h2>Passengers</h2>
+            <p>Manage passenger profiles and information here.</p>
+            <button id="add-passenger">Add New Passenger</button>
+            <div id="passenger-list">
+                <!-- Passenger data will be displayed here -->
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class "footer-container">
+            <p>&copy; 2023 Flight Manager Web Application</p>
+        </div>
+    </footer>
+
+    <script>
+        // Dummy passenger data
+        const dummyPassengers = [
+            { id: 1, name: 'John Doe', email: 'johndoe@example.com', seat: 'A1' },
+            { id: 2, name: 'Jane Smith', email: 'janesmith@example.com', seat: 'B2' },
+            // Add more dummy passengers here
+        ];
+
+        const passengerList = document.getElementById('passenger-list');
+        const addPassengerButton = document.getElementById('add-passenger');
+
+        // Function to render passenger data
+        function renderPassengers() {
+            passengerList.innerHTML = ''; // Clear the existing data
+            dummyPassengers.forEach(passenger => {
+                const passengerItem = document.createElement('div');
+                passengerItem.classList.add('passenger-item');
+                passengerItem.innerHTML = `
+                    <strong>Passenger ID:</strong> ${passenger.id}<br>
+                    <strong>Name:</strong> ${passenger.name}<br>
+                    <strong>Email:</strong> ${passenger.email}<br>
+                    <strong>Seat:</strong> ${passenger.seat}<br>
+                    <hr>
+                `;
+                passengerList.appendChild(passengerItem);
+            });
+        }
+
+        // Event listener for the "Add New Passenger" button
+        addPassengerButton.addEventListener('click', () => {
+            const newPassenger = {
+                id: dummyPassengers.length + 1,
+                name: 'New Passenger',
+                email: 'newpassenger@example.com',
+                seat: 'C3',
+            };
+            dummyPassengers.push(newPassenger);
+            renderPassengers();
+        });
+
+        // Initial rendering of passenger data
+        renderPassengers();
+    </script>
+</body>
+</html>
