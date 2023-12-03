@@ -1,0 +1,35 @@
+<!-- Thymeleaf file for adding an airline -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Airline</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            width: 50%;
+            margin: 0 auto;
+        }
+        input[type="text"], button {
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add Airline</h1>
+    <form th:action="@{/flight_managerTH/add}" method="post" th:object="${airline}">
+        <input type="text" th:field="*{name}" placeholder="Enter Airline Name" />
+        <input type="text" th:field="*{country}" placeholder="Enter Airline Country" />
+        <!-- Other input fields for adding airline properties -->
+        <button type="submit">Add Airline</button>
+    </form>
+</body>
+</html>

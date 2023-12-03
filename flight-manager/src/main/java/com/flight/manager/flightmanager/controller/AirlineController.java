@@ -2,8 +2,8 @@ package com.flight.manager.flightmanager.controller;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,21 +15,21 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.flight.manager.flightmanager.dto.AirlineDTO;
-import com.flight.manager.flightmanager.model.Airline;
+import com.flight.manager.flightmanager.dto.FlightDTO;
 import com.flight.manager.flightmanager.service.AirlineService;
-
-import jakarta.websocket.server.PathParam;
-
+import com.flight.manager.flightmanager.service.FlightService;
 @RestController
 @RequestMapping(value = "/flight_manager")
 public class AirlineController {
     
     private final AirlineService airlineService;
+    private final FlightService flightService;
 
 
-    AirlineController(AirlineService airlineService)
+    AirlineController(AirlineService airlineService , FlightService flightService)
     {
         this.airlineService = airlineService;
+        this.flightService = flightService;
     }
 
     @GetMapping
@@ -75,4 +75,19 @@ public class AirlineController {
 
         return ResponseEntity.ok(deleted);
     }
+
+
+    @GetMapping(value = "/flights")
+    List<FlightDTO> getFlights()
+    {
+      return flightService.getAllFlights();
+    }
+
+    @PostMapping(value = "/flights/add")
+    FlightDTO addFlight(@RequestBody FlightDTO flightDTO)
+    {
+      return flightService.addFlight(flightDTO);
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package com.flight.manager.flightmanager;
 
+
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 

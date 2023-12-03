@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Airline</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            width: 50%;
+            margin: 0 auto;
+        }
+        input[type="text"], button {
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Airline</h1>
+    <form th:action="@{/flight_managerTH/edit}" method="post" th:object="${airline}">
+        <input type="hidden" th:field="*{id}" />
+        <input type="text" th:field="*{name}" placeholder="Enter Airline Name" />
+        <input type="text" th:field="*{country}" placeholder="Enter Airline Country" />
+        <!-- Other input fields for editing airline properties -->
+        <button type="submit">Update Airline</button>
+    </form>
+</body>
+</html>
