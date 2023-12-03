@@ -9,21 +9,31 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import jakarta.persistence.*;
+import lombok.Data;
+
+import java.util.List;
 
 @Entity
 @Table(name = "airline")
 @Data
-@RequiredArgsConstructor
-@EqualsAndHashCode
 public class Airline {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id" , nullable = false)
-    Long id;
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-    @Column(name = "name" , nullable = false , unique = true)
-    String name;
+    @Column(name = "name", nullable = false, unique = true)
+    private String name;
 
     @Column(name = "country", nullable = false)
-    String country;
+    private String country;
+
+    @OneToMany(mappedBy = "airline")
+    private List<Flight> flights;
+
+    // Other necessary fields and relationships
+
+    // Getters and setters
 }

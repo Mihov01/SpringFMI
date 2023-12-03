@@ -1,14 +1,9 @@
 package com.flight.manager.flightmanager.model;
 
-import java.time.LocalDateTime;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "flight")
@@ -37,4 +32,12 @@ public class Flight {
 
     @Column(name = "available_seats", nullable = false)
     private int availableSeats;
+
+    @ManyToOne
+    @JoinColumn(name = "airline_id", nullable = false)
+    private Airline airline;
+
+    // Other necessary fields and relationships
+
+    // Getters and setters
 }
