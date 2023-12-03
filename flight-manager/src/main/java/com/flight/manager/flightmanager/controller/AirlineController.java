@@ -84,9 +84,27 @@ public class AirlineController {
     }
 
     @PostMapping(value = "/flights/add")
-    FlightDTO addFlight(@RequestBody FlightDTO flightDTO)
+    ResponseEntity<FlightDTO> addFlight(@RequestBody FlightDTO flightDTO)
     {
-      return flightService.addFlight(flightDTO);
+      System.out.println(flightDTO.getAvailableSeats());
+      FlightDTO created =  flightService.addFlight(flightDTO);
+        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().pathSegment("{id}").build(created.getId())).body(created);
+    }
+
+
+    @PutMapping(value = "/flights/update")
+    FlightDTO updateFlight (@RequestBody FlightDTO flightDTO){
+      return flightService.updateFlight(flightDTO);
+    }
+
+    @GetMapping(value = "/flights/{id}")
+    FlightDTO getById(@PathVariable Long id){
+      return flightService.getById(id);
+    }
+
+    @DeleteMapping(value = "flights/delete/{id}")
+    FlightDTO deleteById(@PathVariable Long id){
+      return flightService.deleteById(id);
     }
 
 
