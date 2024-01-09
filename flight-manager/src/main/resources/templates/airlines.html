@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Parallax Template - Materialize</title>
 
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="../static/parallax-template/logo.jpg" type="image/x-icon">
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="../static/parallax-template/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -12,26 +12,35 @@
 </head>
 <body>
   <nav class="white" role="navigation">
-    <div class="nav-wrapper container">
-      <a id="logo-container" href="#" class="brand-logo">Logo</a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="#">Navbar Link</a></li>
-      </ul>
-
-      <ul id="nav-mobile" class="sidenav">
-        <li><a href="#">Navbar Link</a></li>
-      </ul>
-      <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-    </div>
+    <nav class="nav-extended">
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo"><img src = "../static/parallax-template/logo.jpg"></a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="flight_managerTH">Home</a></li>
+          <li><a href="flights">Flights</a></li>
+          <li><a href="collapsible.html">JavaScript</a></li>
+        </ul>
+      </div>
+      <div class="nav-content">
+        <ul class="tabs tabs-transparent">
+          <li class="tab"><a class = "active" href="flight_managerTH">Home</a></li>
+          <li class="tab"><a  href="flights">Flights</a></li>
+          <li class="tab disabled"><a href="#test3">Disabled Tab</a></li>
+          <li class="tab"><a href="#test4">Test 4</a></li>
+        </ul>
+      </div>
+    </nav>
+  
   </nav>
 
   <div id="index-banner" class="parallax-container">
     <div class="section no-pad-bot">
       <div class="container">
         <br><br>
-        <h1 class="header center teal-text text-lighten-2">Parallax Template</h1>
+        <h1 class="header center teal-text text-lighten-2">Flight Manager</h1>
         <div class="row center">
-          <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+          <h5 class="header col s12 light">A modern web aplication for flight booking</h5>
         </div>
         <div class="row center">
           <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Get Started</a>
@@ -80,6 +89,10 @@
     </div>
   </div>
 
+
+ 
+
+        
 
   <div class="parallax-container valign-wrapper">
     <div class="section no-pad-bot">

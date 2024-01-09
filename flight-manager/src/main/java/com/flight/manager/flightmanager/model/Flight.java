@@ -37,6 +37,9 @@ public class Flight {
     @JoinColumn(name = "airline_id", nullable = false)
     private Airline airline;
 
+
+
+
     // Other necessary fields and relationships
 
     // Getters and setters

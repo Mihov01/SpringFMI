@@ -14,4 +14,8 @@ public interface AirlineRepo extends JpaRepository<Airline, Long> {
 
     @Query(value = "SELECT a FROM Airline a WHERE a.id = :id")
     Optional<Airline> getAirlineById(@Param("id") Long id);
+
+
+    
+    Airline findByName(String name);
 }

@@ -6,11 +6,24 @@
  * Made By MaterializeCSS.com
  */
 
-nav ul a,
-nav .brand-logo {
-  color: #444;
-}
-
+ nav ul a,
+ nav .brand-logo {
+   color: #444;
+ }
+ 
+ /* Adjusting the logo size and blending it into the background */
+ nav .brand-logo {
+   position: absolute; /* Position the logo */
+   top: 20px; /* Adjust this value to position the logo vertically */
+   left: 20px; /* Adjust this value to position the logo horizontally */
+   z-index: 1; /* Ensure it's above the background */
+ }
+ 
+ nav .brand-logo img {
+   max-width:50px; /* Adjust this value for the desired logo size */
+   opacity: 0.7; /* Set the opacity to blend with the background */
+ }
+ 
 p {
   line-height: 2rem;
 }
@@ -54,4 +67,98 @@ p {
 
 footer.page-footer {
   margin: 0;
+}
+
+h5.header.col.s12.light {
+  color: #020101; 
+}
+
+
+.calendar-container {
+  margin-bottom: 40px;
+}
+
+.calendar-container h4 {
+  margin-bottom: 10px;
+}
+
+.input-field {
+  margin-bottom: 20px;
+}
+
+.flights-table {
+  margin-top: 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.flights-table table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.flights-table th, .flights-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.flights-table th {
+  background-color: #f5f5f5;
+}
+
+.flights-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.flights-table tbody tr:hover {
+  background-color: #f0f0f0;
+}
+
+.datepicker-container {
+  width: 300px;
+  text-align: center;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  background-color: #fff;
+}
+h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+.datepicker-date, .datepicker-range {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.datepicker-range label {
+  display: block;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+}
+.datepicker-range input {
+  width: calc(50% - 5px);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+.datepicker-range input:focus {
+  border-color: #2196F3;
+  box-shadow: 0 0 0 1px #2196F3;
+}
+.datepicker-range input[type="date"]::-webkit-inner-spin-button,
+.datepicker-range input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+.datepicker-range input[type="date"] {
+  -webkit-appearance: none;
+  padding-right: 30px;
+  background: white url('https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/icon/calendar.png') no-repeat 98% center;
 }

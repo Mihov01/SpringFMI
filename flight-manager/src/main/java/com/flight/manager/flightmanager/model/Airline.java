@@ -33,7 +33,4 @@ public class Airline {
     @OneToMany(mappedBy = "airline")
     private List<Flight> flights;
 
-    // Other necessary fields and relationships
-
-    // Getters and setters
 }

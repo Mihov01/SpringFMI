@@ -22,10 +22,10 @@ public class Airport {
     @Column(name = "facilities")
     private String facilities;
 
-    @OneToMany(mappedBy = "sourceAirport")
+    @OneToMany(mappedBy = "sourceAirportCode")
     private List<Flight> departingFlights;
 
-    @OneToMany(mappedBy = "destinationAirport")
+    @OneToMany(mappedBy = "destinationAirportCode")
     private List<Flight> arrivingFlights;
 
     // Other necessary fields and relationships
