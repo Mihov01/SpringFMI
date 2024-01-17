@@ -22,7 +22,7 @@ public class Reservation {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "\"user_id\"", nullable = false) // Using double quotes for PostgreSQL
+    @JoinColumn(name = "user_id", nullable = false) // Using double quotes for PostgreSQL
     private User user;
 
     @ManyToOne
