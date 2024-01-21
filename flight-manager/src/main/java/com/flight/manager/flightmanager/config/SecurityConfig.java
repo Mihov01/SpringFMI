@@ -33,20 +33,13 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         http.csrf(csrf -> csrf.disable())
-//                 .authorizeHttpRequests(authorizeHttpRequests ->
-//                                 authorizeHttpRequests
-//                                         .requestMatchers(POST, "/api/auth/login", "/api/auth/register").permitAll()
-//                                         .requestMatchers(GET, "/swagger-ui.html", "/swagger-ui/**", "/swagger-resources/**", "/v2/**").permitAll()
-//                                         .requestMatchers(GET, "/api/articles").permitAll()
-//                                         .requestMatchers(GET, "/api/users", "api/users/**").authenticated() //.hasRole(ADMIN.name())
-//                                         .requestMatchers("/api/users", "api/users/**").hasRole(ROLE_ADMIN.name())
-//                                         .requestMatchers("/**").permitAll() //hasAnyRole(ADMIN.name(), AUTHOR.name(), READER.name())
-// //                                .requestMatchers(GET, "/**").hasAnyRole(ADMIN.name(), AUTHOR.name(), READER.name())
-// //                                .requestMatchers(POST, "/**").hasAnyRole(ADMIN.name(), AUTHOR.name())
-// //                                .requestMatchers(PUT, "/**").hasAnyRole(ADMIN.name(), AUTHOR.name())
-// //                                .requestMatchers(DELETE, "/**").hasAnyRole(ADMIN.name(), AUTHOR.name())
-//                 )
+                .authorizeHttpRequests(authorizeHttpRequests ->
+                                authorizeHttpRequests
+                                .anyRequest().permitAll()
+                )
+
 
 
                 .sessionManagement(sessionManagement ->
@@ -58,7 +51,7 @@ public class SecurityConfig {
                         exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 );
 
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        
 
         return http.build();
     }

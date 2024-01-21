@@ -43,7 +43,7 @@ public class AuthController {
         this.jwtUtils = jwtUtils;
     }
 
-    @PostMapping("register")
+    @PostMapping(value = "register" )
     public ResponseEntity<User> registerReader(@Valid @RequestBody User user, Errors errors) {
         handleValidationErrors(errors);
         if (!user.getRole().equals(Role.ROLE_USER)) {

@@ -1,8 +1,11 @@
 package com.flight.manager.flightmanager.serviceImpl;
 
 import com.flight.manager.flightmanager.repository.FlightRepository;
+import com.flight.manager.flightmanager.repository.UserRepo;
 import com.flight.manager.flightmanager.service.FlightService;
 import com.flight.manager.flightmanager.model.Flight;
+import com.flight.manager.flightmanager.model.User;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -16,11 +19,13 @@ public class FlightServiceImpl implements FlightService {
     
     private final FlightRepository flightRepository;
     private final FlightMapper flightMapper; 
+    private final UserRepo userRepo;
 
-    FlightServiceImpl( FlightRepository flightRepository , FlightMapper flightMapper)
+    FlightServiceImpl( FlightRepository flightRepository , FlightMapper flightMapper, UserRepo userRepo)
     {
         this.flightRepository = flightRepository;
         this.flightMapper = flightMapper;
+        this.userRepo = userRepo;
     }
 
     @Override
@@ -83,5 +88,18 @@ public FlightDTO deleteById(Long id)  {
     flightRepository.deleteById(id);
     
     return flightMapper.toFlightDTO(existingFlight.get());
+}
+
+
+// TODO make reservaton service and handle it there
+@Override
+public FlightDTO reserveFlght(String user , Long  flightID){
+
+    Optional<User> user1 = userRepo.findByUsername(user);
+    Optional<Flight> f= flightRepository.findById(flightID);
+
+    user1.get().getReservations();
+
+    return null;
 }
 }
