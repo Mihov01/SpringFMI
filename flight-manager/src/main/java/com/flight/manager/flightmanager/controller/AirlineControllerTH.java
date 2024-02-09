@@ -2,6 +2,7 @@ package com.flight.manager.flightmanager.controller;
 
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +26,13 @@ public class AirlineControllerTH {
     }
 
     @GetMapping
-    public String getAllAirlines(Model model) {
+    public String getAllAirlines(Authentication authentication,  Model model) {
         List<AirlineDTO> airlines = airlineService.getAllAirlines();
+        if (authentication != null && authentication.isAuthenticated()) {
+            model.addAttribute("loggedIn", true);
+        } else {
+            model.addAttribute("loggedIn", false);
+        }
         model.addAttribute("airlines", airlines);
         return "airlines"; // Thymeleaf file name: airlines.html
     }

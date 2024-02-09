@@ -6,9 +6,12 @@ import com.flight.manager.flightmanager.service.FlightService;
 import com.flight.manager.flightmanager.model.Flight;
 import com.flight.manager.flightmanager.model.User;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.flight.manager.flightmanager.dto.FlightDTO;
@@ -93,13 +96,32 @@ public FlightDTO deleteById(Long id)  {
 
 // TODO make reservaton service and handle it there
 @Override
-public FlightDTO reserveFlght(String user , Long  flightID){
+public List<FlightDTO> getAllAvailableFlightsBetween(String source , String destinationAirportCode){
 
-    Optional<User> user1 = userRepo.findByUsername(user);
-    Optional<Flight> f= flightRepository.findById(flightID);
+    List<FlightDTO> result = new ArrayList<>();
+    List<Flight> flights = flightRepository.getAllAvailableFlightsBetween(source,destinationAirportCode);
 
-    user1.get().getReservations();
+    result = flightMapper.mapEntitiesToDTOs(flights);
 
-    return null;
+    return result;
+}
+
+@Override
+public List<Flight> getFilteredFlights(LocalDateTime departureDate, String sourceAirportCode , String destinationAirportCode) {
+    Specification<Flight> spec = Specification.where(null);
+
+        if (departureDate != null) {
+            spec = spec.and((root, query, builder) -> builder.equal(root.get("departureTime"), departureDate));
+        }
+
+        if (!sourceAirportCode.isBlank()) {
+            spec = spec.and((root, query, builder) -> builder.equal(root.get("sourceAirportCode"), sourceAirportCode));
+        }
+
+        if (!destinationAirportCode.isBlank()) {
+            spec = spec.and((root, query, builder) -> builder.equal(root.get("destinationAirportCode"), destinationAirportCode));
+        }
+
+        return flightRepository.findAll(spec);
 }
 }

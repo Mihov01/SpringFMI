@@ -26,9 +26,7 @@ public class UserController {
 
     @PutMapping
     ResponseEntity<User> updateUser( @RequestBody User user){
-        System.out.println("HUUUUUUIIIII");
         User updated = userService.update(user);
-
         return ResponseEntity.ok().body(updated);
     }
 

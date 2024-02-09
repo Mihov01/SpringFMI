@@ -20,16 +20,18 @@
           <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="flight_managerTH">Home</a></li>
             <li><a href="flights">Flights</a></li>
-            <li><a href="login">Login</a></li>
-            <li><a href="register">Register</a></li>
+            <li th:unless="${loggedIn}" ><a href="login">Login</a></li>
+            <li th:unless="${loggedIn}" ><a href="register">Register</a></li>
+            <!-- Render logout link if logged in -->
+            <li th:if="${loggedIn}" ><a href="logout">Logout</a></li>
+            <li th:if="${loggedIn}" ><a href="reservations">Reservations</a></li>
           </ul>
         </div>
         <div class="nav-content">
           <ul class="tabs tabs-transparent">
             <li class="tab"><a class="active" href="flight_managerTH">Home</a></li>
             <li class="tab"><a href="flights">Flights</a></li>
-            <li class="tab"><a href="login">Login</a></li>
-            <li class="tab"><a href="register">Register</a></li>
+            <li class="tab"><a href="reservations">Reservations</a></li>
           </ul>
         </div>
       </nav>

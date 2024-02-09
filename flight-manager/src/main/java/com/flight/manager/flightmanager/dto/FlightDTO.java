@@ -22,6 +22,7 @@ public class FlightDTO {
     private String sourceAirportCode;
     private String destinationAirportCode;
     private int availableSeats;
+    private Integer price;
 
     // Constructors if needed
 

@@ -30,6 +30,9 @@ public class Flight {
     @Column(name = "destination_airport_code", nullable = false)
     private String destinationAirportCode;
 
+    @Column(name = "price", nullable = false)
+    private Integer price;
+
     @Column(name = "available_seats", nullable = false)
     private int availableSeats;
 

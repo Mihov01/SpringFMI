@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.flight.manager.flightmanager.exception.InvalidEntityDataException;
@@ -21,15 +22,20 @@ import com.flight.manager.flightmanager.service.UserService;
 public class UserServiceImpl implements UserService{
     
     private final UserRepo repo;
+    private final PasswordEncoder passwordEncoder;
 
-    UserServiceImpl(UserRepo repo){
+    UserServiceImpl(UserRepo repo , PasswordEncoder passwordEncoder){
         this.repo = repo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public User getUserByUsername(String Username){
+    public Optional<User> getUserByUsername(String Username){
         
-        return repo.findByUsername(Username).get();
+       
+        return repo.findByUsername(Username);
+        
+    
     }
 
 
@@ -41,8 +47,7 @@ public class UserServiceImpl implements UserService{
             throw new InvalidEntityDataException(
                     String.format("User with username '%s' already exists", user.getUsername()));
         }
-        var encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        user.setPassword(encoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return repo.save(user);
     }
 

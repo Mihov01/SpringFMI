@@ -2,74 +2,69 @@ package com.flight.manager.flightmanager.controller;
 
 
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.validation.Errors;
+import jakarta.validation.Valid;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.flight.manager.flightmanager.config.JwtUtils;
-import com.flight.manager.flightmanager.dto.CredentialsDTO;
-import com.flight.manager.flightmanager.dto.LoginResponceDTO;
-import com.flight.manager.flightmanager.exception.InvalidEntityDataException;
-import com.flight.manager.flightmanager.model.Role;
 import com.flight.manager.flightmanager.model.User;
 import com.flight.manager.flightmanager.service.UserService;
 
-import jakarta.validation.Valid;
+import static com.flight.manager.flightmanager.model.Role.ROLE_USER;
 
-import static com.flight.manager.flightmanager.utils.ErrorHandlingUtils.handleValidationErrors;
+import java.util.List;
+import java.util.Optional;
 
-
-
-@RestController
-@RequestMapping("/api/auth")
+@Controller
 public class AuthController {
+
     private UserService userService;
-    private AuthenticationManager authenticationManager;
-    private JwtUtils jwtUtils;
 
-    @Autowired
-    public AuthController(UserService userService,
-                          AuthenticationManager authenticationManager,
-                          JwtUtils jwtUtils) {
+    public AuthController(UserService userService) {
         this.userService = userService;
-        this.authenticationManager = authenticationManager;
-        this.jwtUtils = jwtUtils;
     }
 
-    @PostMapping(value = "register" )
-    public ResponseEntity<User> registerReader(@Valid @RequestBody User user, Errors errors) {
-        handleValidationErrors(errors);
-        if (!user.getRole().equals(Role.ROLE_USER)) {
-            throw new InvalidEntityDataException(
-                    String.format("Role: '%s' is invalid. You can self-register only in 'User' role.",
-                            user.getRole()));
+    @GetMapping("index")
+    public String home(){
+        return "index";
+    }
+
+    @GetMapping("/login")
+    public String loginForm() {
+        return "login";
+    }
+
+    // handler method to handle user registration request
+    @GetMapping("register")
+    public String showRegistrationForm(Model model){
+        User user = new User();
+        model.addAttribute("user", user);
+        return "register";
+    }
+
+    // handler method to handle register user form submit request
+    @PostMapping("/register/save")
+    public String registration(@Valid @ModelAttribute("user") User user,
+                               BindingResult result,
+                               Model model){
+        Optional<User> existing = userService.getUserByUsername(user.getUsername());
+        if (existing.isPresent()) {
+            result.rejectValue("email", null, "There is already an account registered with that email");
         }
-        User created = userService.create(user);
-        return ResponseEntity.created(
-                ServletUriComponentsBuilder.fromCurrentRequest().pathSegment("{id}").build(created.getId())
-        ).body(created);
+        if (result.hasErrors()) {
+            model.addAttribute("user", user);
+            return "register";
+        }
+        user.setRole(ROLE_USER);
+        userService.create(user);
+        return "redirect:/register?success";
     }
 
-    @PostMapping("login")
-    public LoginResponceDTO login(@Valid @RequestBody CredentialsDTO credentials, Errors errors) {
-        handleValidationErrors(errors);
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                credentials.getUsername(), credentials.getPassword()
-        ));
-        final User user = userService.getUserByUsername(credentials.getUsername());
-        final String token = jwtUtils.generateToken(user);
-        return new LoginResponceDTO(token, user);
-    }
+   
 }
-
-
 
 
 

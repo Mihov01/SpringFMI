@@ -29,16 +29,6 @@ public class Reservation {
     @JoinColumn(name = "flight_id", nullable = false)
     private Flight flight;
 
-    @Column(name = "seat_number")
-    private String seatNumber;
-
     @Column(name = "status")
-    private String status; // Can be Enum: PENDING, CONFIRMED, CANCELLED, etc.
-
-    @OneToOne(mappedBy = "reservation")
-    private Payment payment;
-
-    // Other necessary fields related to reservation details
-
-    // Getters and setters
+    private StatusEnum status; 
 }

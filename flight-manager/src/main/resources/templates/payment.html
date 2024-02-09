@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Payment</title>
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../static/custom-style.css">
+</head>
+<body>
+<nav class="white" role="navigation">
+    <nav class="nav-extended">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo"><img src="../static/parallax-template/logo.jpg"></a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="flight_managerTH">Home</a></li>
+                <li><a href="flights">Flights</a></li>
+                <li><a href="collapsible.html">JavaScript</a></li>
+            </ul>
+        </div>
+        <div class="nav-content">
+            <ul class="tabs tabs-transparent">
+                <li class="tab"><a  href="flight_managerTH">Home</a></li>
+                <li class="tab"><a class="active" href="flights">Flights</a></li>
+                <li class="tab disabled"><a href="#test3">Disabled Tab</a></li>
+                <li class="tab"><a href="#test4">Test 4</a></li>
+            </ul>
+        </div>
+    </nav>
+</nav>
+
+<div class="container">
+    <h1>Flight Payment</h1>
+    <form id="paymentForm" th:action="@{'/reserve/' + ${flightNumber}}" method="post"> <!-- Change the action URL to the appropriate endpoint -->
+        <div class="input-field">
+            <input type="text" id="cardNumber" name="cardNumber" required>
+            <label for="cardNumber">Card Number</label>
+        </div>
+        <div class="input-field">
+            <input type="text" id="expiryDate" name="expiryDate" required>
+            <label for="expiryDate">Expiry Date</label>
+        </div>
+        <div class="input-field">
+            <input type="text" id="cvv" name="cvv" required>
+            <label for="cvv">CVV</label>
+        </div>
+        <div class="input-field">
+            <button type="submit" class="btn">Pay Now</button>
+        </div>
+    </form>
+</div>
+
+<!-- Materialize JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<!-- Custom JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.datepicker');
+        var options = {
+            format: 'yyyy-mm-dd',
+            autoClose: true
+        };
+        var instances = M.Datepicker.init(elems, options);
+    });
+</script>
+</body>
+</html>

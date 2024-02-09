@@ -107,5 +107,10 @@ public class AirlineController {
       return flightService.deleteById(id);
     }
 
+    @GetMapping(value = "flights/findAvaliable/{start}/{end}")
+    List<FlightDTO> getAllAvaliable(@PathVariable String sstart , @PathVariable String end){
+      return flightService.getAllAvailableFlightsBetween(sstart, end);
+    }
 
+  
 }

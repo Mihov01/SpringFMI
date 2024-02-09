@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Parallax Template - Materialize</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../static/parallax-template/logo.jpg" type="image/x-icon">
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="../static/parallax-template/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="../static/parallax-template/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+<body>
+    <nav class="white" role="navigation">
+        <nav class="nav-extended">
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo"><img src="../static/parallax-template/logo.jpg"></a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="flight_managerTH">Home</a></li>
+                    <li><a href="flights">Flights</a></li>
+                    <li><a href="collapsible.html">JavaScript</a></li>
+                </ul>
+            </div>
+            <div class="nav-content">
+                <ul class="tabs tabs-transparent">
+                    <li class="tab"><a  href="flight_managerTH">Home</a></li>
+                    <li class="tab"><a class = "active" href="flights">Flights</a></li>
+                    <li class="tab disabled"><a href="#test3">Disabled Tab</a></li>
+                    <li class="tab"><a href="#test4">Test 4</a></li>
+                </ul>
+            </div>
+        </nav>
+    </nav>
+
+ 
+
+    <!-- Display filtered flights -->
+    <div class="container">
+        <div class="section">
+            <table class="highlight">
+                <thead>
+                    <tr>
+                        <th>Flight Number</th>
+                        <th>Departure Time</th>
+                        <th>Arrival Time</th>
+                        <th>Source Airport</th>
+                        <th>Destination Airport</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="flight : ${flights}">
+                        <td th:text="${flight.flightNumber}"></td>
+                        <td th:text="${flight.departureTime}"></td>
+                        <td th:text="${flight.arrivalTime}"></td>
+                        <td th:text="${flight.sourceAirportCode}"></td>
+                        <td th:text="${flight.destinationAirportCode}"></td>
+                
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- JavaScript and other scripts -->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+</body>
+</html>
