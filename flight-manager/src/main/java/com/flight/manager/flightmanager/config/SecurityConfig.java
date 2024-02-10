@@ -42,6 +42,8 @@ public class SecurityConfig {
                                 .requestMatchers("/assignments/**").permitAll()
                                 .requestMatchers("/deleteFlight/**").permitAll()
                                 .requestMatchers("/createFlight/**").hasRole("ADMIN")
+                                .requestMatchers("/allAssignments/**").hasRole("ADMIN")
+                                .requestMatchers("/addAssignments/**").hasRole("ADMIN")
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")

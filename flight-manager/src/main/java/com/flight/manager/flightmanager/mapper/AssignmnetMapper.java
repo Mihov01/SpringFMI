@@ -12,6 +12,7 @@ public class AssignmnetMapper {
     
     public AssignmentDTO toDto(CrewAssignment assignment , Flight flight, User user){
         AssignmentDTO dto = new AssignmentDTO();
+        dto.setId(assignment.getId());
         dto.setArrivalTime(flight.getArrivalTime());
         dto.setDepartureTime(flight.getDepartureTime());
         dto.setFlightNumber(flight.getFlightNumber());
@@ -19,7 +20,6 @@ public class AssignmnetMapper {
         dto.setSourceAirportCode(flight.getSourceAirportCode());
         dto.setDestinationAirportCode(flight.getDestinationAirportCode());
         dto.setUserName(user.getUsername());
-
         return dto;
     }
 }

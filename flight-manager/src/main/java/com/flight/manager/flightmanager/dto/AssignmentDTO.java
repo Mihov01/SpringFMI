@@ -16,6 +16,8 @@ import lombok.Setter;
 public class AssignmentDTO {
 
 
+    Long id;
+
     private CrewRole role; 
 
     

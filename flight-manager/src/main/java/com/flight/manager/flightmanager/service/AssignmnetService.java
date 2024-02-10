@@ -8,5 +8,6 @@ import com.flight.manager.flightmanager.model.User;
 public interface AssignmnetService {
     
 
-    List<AssignmentDTO> getAllAssinments(User user);
+    List<AssignmentDTO> getAssinments(User user);
+    List<AssignmentDTO> getAllAssinments();
 }

@@ -198,7 +198,7 @@ public class FlightController {
             }
              // Get the UserDetails object which contains user details
            User user = (User) authentication.getPrincipal();
-           List<AssignmentDTO> flights = assignmnetService.getAllAssinments(user);
+           List<AssignmentDTO> flights = assignmnetService.getAssinments(user);
            model.addAttribute("flights", flights);
         }
        
@@ -287,5 +287,54 @@ public class FlightController {
         service.update(user);
         return "redirect:/users";
     }
+
+
+    @GetMapping(value="allAssignments")
+    public String getAllAssignments(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        boolean loggedIn = false;
+        boolean isCrew = false;
+        boolean isUser = false;
+        boolean isAdmin = false;
+        if (authentication != null && authentication.isAuthenticated()) {
+            loggedIn = true;
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof User) {
+                User user = (User) principal;
+                // Assuming getRoles() returns a list of roles for the user
+                Role role = user.getRole();
+                if(role == Role.ROLE_CREW){
+                    isCrew = true;
+                    
+                }else if (role == Role.ROLE_USER){
+                    isUser =true;
+
+                }else if ( role == Role.ROLE_ADMIN){
+                    isAdmin = true;
+                }
+            }
+             // Get the UserDetails object which contains user details
+           User user = (User) authentication.getPrincipal();
+           List<AssignmentDTO> flights = assignmnetService.getAllAssinments();
+           model.addAttribute("assignments", flights);
+        }
+       
+       
+        model.addAttribute("loggedIn", loggedIn);
+        model.addAttribute("isCrew", isCrew);
+        model.addAttribute("isUser", isUser);
+        model.addAttribute("isAdmin", isAdmin);
+        return "assignments";
+    }
+
+
+
+    @PostMapping(value =  "deleteAssignment/{id}")
+    public String deleteAssignment(@PathVariable Long id){
+
+        return "redirect:/allAssignments";
+    }
+
 
 }
