@@ -1,9 +1,17 @@
 package com.flight.manager.flightmanager.serviceImpl;
 
+import com.flight.manager.flightmanager.repository.AirlineRepo;
 import com.flight.manager.flightmanager.repository.FlightRepository;
+import com.flight.manager.flightmanager.repository.ReservationRepository;
 import com.flight.manager.flightmanager.repository.UserRepo;
 import com.flight.manager.flightmanager.service.FlightService;
+
+import jakarta.persistence.EntityNotFoundException;
+
+import com.flight.manager.flightmanager.model.Airline;
 import com.flight.manager.flightmanager.model.Flight;
+import com.flight.manager.flightmanager.model.Reservation;
+import com.flight.manager.flightmanager.model.StatusEnum;
 import com.flight.manager.flightmanager.model.User;
 
 import java.time.LocalDateTime;
@@ -23,18 +31,22 @@ public class FlightServiceImpl implements FlightService {
     private final FlightRepository flightRepository;
     private final FlightMapper flightMapper; 
     private final UserRepo userRepo;
+    private final AirlineRepo airlineRepo;
+    private final ReservationRepository reservationRepository;
 
-    FlightServiceImpl( FlightRepository flightRepository , FlightMapper flightMapper, UserRepo userRepo)
+    FlightServiceImpl( FlightRepository flightRepository , FlightMapper flightMapper, UserRepo userRepo, AirlineRepo airlineRepo, ReservationRepository reservationRepository)
     {
         this.flightRepository = flightRepository;
         this.flightMapper = flightMapper;
         this.userRepo = userRepo;
+        this.airlineRepo = airlineRepo;
+        this.reservationRepository =reservationRepository;
     }
 
     @Override
     public List<FlightDTO> getAllFlights(){
 
-        List<Flight> flights = flightRepository.findAll();
+        List<Flight> flights = flightRepository.getAllFlights();
         return flightMapper.mapEntitiesToDTOs(flights);
     }
 
@@ -42,12 +54,17 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public FlightDTO addFlight(FlightDTO flightDTO){
 
-        Optional<Flight> check = flightRepository.findById(flightDTO.getId());
-        if (check.isPresent()){
-            // TODO : throw an exception
-        }
 
-        Flight saved = flightRepository.save(flightMapper.toFlightEntity(flightDTO));
+        Optional<Airline> air = airlineRepo.getAirlineByName(flightDTO.getAirlineName());
+        if(air.isEmpty()){
+            throw new EntityNotFoundException("No such entity");
+        }
+       
+        Flight to_save = flightMapper.toFlightEntity(flightDTO, air.get());
+        System.out.println(flightDTO.getFlightNumber());
+        System.out.println(to_save.getFlightNumber());
+        to_save.setDeleted(false);
+        Flight saved = flightRepository.save(to_save);
 
         return flightMapper.toFlightDTO(saved);
 
@@ -61,9 +78,9 @@ public class FlightServiceImpl implements FlightService {
       // TODO Exception here
     }
     
-    Flight updatedFlight = flightRepository.save(flightMapper.toFlightEntity(flightDTO));
+   /// Flight updatedFlight = flightRepository.save(flightMapper.toFlightEntity(flightDTO));
     
-    return flightMapper.toFlightDTO(updatedFlight);
+    return null;
 }
 
 @Override
@@ -85,11 +102,13 @@ public FlightDTO deleteById(Long id)  {
     Optional<Flight> existingFlight = flightRepository.findById(id);
     
     if (!existingFlight.isPresent()) {
-       //todo : throw exception
+       throw new EntityNotFoundException("No such flght");
     }
     
-    flightRepository.deleteById(id);
+    existingFlight.get().setDeleted(true);
+    flightRepository.save(existingFlight.get());
     
+    updateReservations(existingFlight.get());
     return flightMapper.toFlightDTO(existingFlight.get());
 }
 
@@ -106,12 +125,22 @@ public List<FlightDTO> getAllAvailableFlightsBetween(String source , String dest
     return result;
 }
 
+private void updateReservations (Flight f ){
+    List<Reservation> res = reservationRepository.getReservations(f.getId());
+    for (Reservation res1 : res){
+        res1.setStatus(StatusEnum.CANCELED);
+        reservationRepository.save(res1);
+    }
+}
+
 @Override
 public List<Flight> getFilteredFlights(LocalDateTime departureDate, String sourceAirportCode , String destinationAirportCode) {
     Specification<Flight> spec = Specification.where(null);
 
         if (departureDate != null) {
-            spec = spec.and((root, query, builder) -> builder.equal(root.get("departureTime"), departureDate));
+           final  LocalDateTime  limit = (departureDate.plusDays(1)).minusMinutes(1);
+           
+            spec = spec.and((root, query, builder) -> builder.between(root.get("departureTime"), departureDate, limit));
         }
 
         if (!sourceAirportCode.isBlank()) {

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Flight</title>
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            padding-top: 40px;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+        }
+        form {
+            margin-top: 40px;
+        }
+        label {
+            font-weight: bold;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <nav class="white" role="navigation">
+        <nav class="nav-extended">
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo"><img src="../static/parallax-template/logo.jpg"></a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="flight_managerTH">Home</a></li>
+                    <li><a href="flights">Flights</a></li>
+                    <li><a href="collapsible.html">JavaScript</a></li>
+                </ul>
+            </div>
+            <div class="nav-content">
+                <ul class="tabs tabs-transparent">
+                    <li class="tab"><a  href="flight_managerTH">Home</a></li>
+                    <li class="tab"><a class = "active" href="flights">Flights</a></li>
+                    <li class="tab disabled"><a href="#test3">Disabled Tab</a></li>
+                    <li class="tab"><a href="#test4">Test 4</a></li>
+                </ul>
+            </div>
+        </nav>
+    </nav>
+
+    <div class="container">
+        <h2 class="center-align">Create Flight</h2>
+        <form action="#" th:action="@{/createFlight}" method="post" class="col s12">
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="flightNumber" type="text" class="validate" name="flightNumber" required>
+                    <label for="flightNumber">Flight Number</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="departureTime" type="datetime-local" name="departureTime" required>
+                    <label for="departureTime">Departure Time</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="arrivalTime" type="datetime-local" name="arrivalTime" required>
+                    <label for="arrivalTime">Arrival Time</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="sourceAirportCode" type="text" class="validate" name="sourceAirportCode" required>
+                    <label for="sourceAirportCode">Source Airport Code</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="destinationAirportCode" type="text" class="validate" name="destinationAirportCode" required>
+                    <label for="destinationAirportCode">Destination Airport Code</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="availableSeats" type="number" class="validate" name="availableSeats" required>
+                    <label for="availableSeats">Available Seats</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="price" type="number" class="validate" name="price" required>
+                    <label for="price">Price</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="airlineName" type="text" class="validate" name="airlineName" required>
+                    <label for="airlineName">Airline Name</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <button class="btn waves-effect waves-light" type="submit">Create Flight</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Materialize JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>

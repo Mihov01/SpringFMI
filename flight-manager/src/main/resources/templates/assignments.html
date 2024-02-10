@@ -11,19 +11,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="../static/parallax-template/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="../static/parallax-template/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-
-    <style>
-        /* CSS for table scrolling */
-        .scrollable-table {
-            max-height: 400px; /* Set your desired max height */
-            overflow-y: auto;
-        }
-
-        /* Adjust table margin */
-        .table-section {
-            margin-top: 20px; /* Adjust as needed */
-        }
-    </style>
 </head>
 <body>
     <nav class="white" role="navigation">
@@ -57,34 +44,38 @@
 
     <!-- Display filtered flights -->
     <div class="container">
-        <div class="section table-section">
-            <div class="scrollable-table">
-                <table class="highlight">
-                    <thead>
-                        <tr>
-                            <th>Flight Number</th>
-                            <th>Departure Time</th>
-                            <th>Arrival Time</th>
-                            <th>Source Airport</th>
-                            <th>Destination Airport</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="flight : ${flights}">
-                            <td th:text="${flight.flightNumber}"></td>
-                            <td th:text="${flight.departureTime}"></td>
-                            <td th:text="${flight.arrivalTime}"></td>
-                            <td th:text="${flight.sourceAirportCode}"></td>
-                            <td th:text="${flight.destinationAirportCode}"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="section">
+            <table class="highlight">
+                <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Flight Number</th>
+                        <th>Departure Time</th>
+                        <th>Arrival Time</th>
+                        <th>Source Airport</th>
+                        <th>Destination Airport</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="flight : ${flights}">
+                      <td th:text="${flight.userName}"></td>
+                        <td th:text="${flight.flightNumber}"></td>
+                        <td th:text="${flight.departureTime}"></td>
+                        <td th:text="${flight.arrivalTime}"></td>
+                        <td th:text="${flight.sourceAirportCode}"></td>
+                        <td th:text="${flight.destinationAirportCode}"></td>
+                        <td th:text="${flight.role}"></td>
+                
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
     <!-- JavaScript and other scripts -->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
 </body>
 </html>

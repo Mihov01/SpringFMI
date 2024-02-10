@@ -62,6 +62,9 @@ public class UserServiceImpl implements UserService{
 
         user1.setFirstName(user.getFirstName());
         user1.setLastName(user.getLastName());
+        user1.setRole(user.getRole());
+        user1.setUsername(user.getUsername());
+        user1.setEmail(user.getEmail());
 
         repo.save(user1);
         return user1;
@@ -77,36 +80,14 @@ return repo.findAll();
 }
 
 
-@Override 
-public User updatePermissions(User user){
+@Override
+public void delete(Long id){
 
-    User result =  new User();
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-// Check if the user is authenticated
-if (authentication.isAuthenticated()) {
-    // Get the authenticated user's details
-    Object principal = authentication.getPrincipal();
-
-    // The principal should be an instance of your UserDetails or custom UserDetails implementation
-    if (principal instanceof UserDetails) {
-        UserDetails userDetails = (UserDetails) principal;
-        String username = userDetails.getUsername();
-        User user1 = repo.findByUsername(username).get();
-
-        if (user1.getRole() == ROLE_ADMIN){
-            User userTOUpdate = repo.findByUsername(user.getUsername()).get();
-            userTOUpdate.setRole(user.getRole());
-         
-            result =     repo.save(userTOUpdate);
-        }else{
-            throw new UnautorizedException("This user does not have permission"); 
-        }
-
-        // Now you have the username of the authenticated user
-        System.out.println("Authenticated user: " + username);
-    }
+     repo.deleteById(id);
 }
-return result ;
+
+@Override
+public  Optional<User> getUserById(Long id){
+    return repo.findById(id);
 }
 }

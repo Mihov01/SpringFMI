@@ -31,6 +31,10 @@ public interface FlightRepository extends JpaRepository<Flight,Long> , JpaSpecif
 
     Optional<Flight> findByFlightNumber(String flightNumber);
 
-    @Query(value = "Select * from flight where id in :ids", nativeQuery = true)
+    @Query(value = "Select * from flight where id in :ids and is_deleted = false order by id asc", nativeQuery = true)
     List<Flight> getFlights(@Param("ids") List<Long> ids);
+
+
+    @Query(value = "Select * from flight where  is_deleted = false", nativeQuery = true)
+    List<Flight> getAllFlights();
 }

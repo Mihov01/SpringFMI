@@ -15,7 +15,8 @@ public interface UserService {
      User create(User user);
      User update(User user);
      List<User> getAllUsers();
-     User updatePermissions(User user);
+     void delete(Long id);
+     Optional<User> getUserById(Long id);
 
     
 }

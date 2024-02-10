@@ -2,6 +2,8 @@ package com.flight.manager.flightmanager.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,10 +30,7 @@ public class CrewAssignment {
     @JoinColumn(name = "crew_member_id", nullable = false)
     private User crewMember;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private String role; // Captain, Co-pilot, Flight Attendant, etc.
-
-    // Other necessary fields related to crew assignments
-
-    // Getters and setters
+    private CrewRole role; // Captain, Co-pilot, Flight Attendant, etc.
 }

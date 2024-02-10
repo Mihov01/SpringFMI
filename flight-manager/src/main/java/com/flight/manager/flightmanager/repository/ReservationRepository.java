@@ -13,5 +13,8 @@ public interface ReservationRepository extends JpaRepository<Reservation,Long> {
 
     @Query(value = "Select flight_id from reservation where user_id = :id", nativeQuery = true)
     List<Long> getFlightIds(@Param("id") Long id);
+
+    @Query(value = "Select * from reservation where flight_id = :id ", nativeQuery = true)
+    List<Reservation> getReservations(@Param("id") Long id);
     
 }

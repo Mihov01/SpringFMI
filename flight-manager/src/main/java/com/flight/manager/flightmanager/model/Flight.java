@@ -40,6 +40,9 @@ public class Flight {
     @JoinColumn(name = "airline_id", nullable = false)
     private Airline airline;
 
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isDeleted;
+
 
 
 

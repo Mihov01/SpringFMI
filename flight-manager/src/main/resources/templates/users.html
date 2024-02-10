@@ -62,20 +62,29 @@
                 <table class="highlight">
                     <thead>
                         <tr>
-                            <th>Flight Number</th>
-                            <th>Departure Time</th>
-                            <th>Arrival Time</th>
-                            <th>Source Airport</th>
-                            <th>Destination Airport</th>
+                            <th>Username</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Actions</th> <!-- New column for actions -->
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="flight : ${flights}">
-                            <td th:text="${flight.flightNumber}"></td>
-                            <td th:text="${flight.departureTime}"></td>
-                            <td th:text="${flight.arrivalTime}"></td>
-                            <td th:text="${flight.sourceAirportCode}"></td>
-                            <td th:text="${flight.destinationAirportCode}"></td>
+                        <tr th:each="user : ${allUsers}">
+                            <td th:text="${user.username}"></td>
+                            <td th:text="${user.firstName}"></td>
+                            <td th:text="${user.lastName}"></td>
+                            <td th:text="${user.email}"></td>
+                            <td th:text="${user.role}"></td>
+                            <td>
+                                <form th:action="@{'users/deleteUser/' + ${user.id}}" method="post">  
+                                    <button type="submit" class="btn waves-effect waves-light">Delete</button>
+                                </form>
+                                <form th:action="@{'updateUser/' + ${user.id}}" method="get">  
+                                    <button type="submit" class="btn waves-effect waves-light">Update</button>
+                                </form>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

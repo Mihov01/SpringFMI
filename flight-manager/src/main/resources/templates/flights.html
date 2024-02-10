@@ -11,56 +11,79 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="../static/parallax-template/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="../static/parallax-template/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <style>
+        /* CSS for table scrolling */
+        .scrollable-table {
+            max-height: 400px; /* Set your desired max height */
+            overflow-y: auto;
+        }
+
+        /* Adjust filter section margin */
+        .filter-section {
+            margin-top: 20px; /* Adjust as needed */
+            margin-bottom: 20px; /* Adjust as needed */
+        }
+    </style>
 </head>
 <body>
     <nav class="white" role="navigation">
         <nav class="nav-extended">
-            <div class="nav-wrapper">
-                <a href="#" class="brand-logo"><img src="../static/parallax-template/logo.jpg"></a>
-                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="flight_managerTH">Home</a></li>
-                    <li><a href="flights">Flights</a></li>
-                    <li><a href="collapsible.html">JavaScript</a></li>
-                </ul>
-            </div>
-            <div class="nav-content">
-                <ul class="tabs tabs-transparent">
-                    <li class="tab"><a  href="flight_managerTH">Home</a></li>
-                    <li class="tab"><a class = "active" href="flights">Flights</a></li>
-                    <li class="tab disabled"><a href="#test3">Disabled Tab</a></li>
-                    <li class="tab"><a href="#test4">Test 4</a></li>
-                </ul>
-            </div>
+          <div class="nav-wrapper">
+            <a href="#" class="brand-logo"><img src="../static/parallax-template/logo.jpg"></a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+              <li><a href="flight_managerTH">Home</a></li>
+              <li><a href="flights">Flights</a></li>
+              <li th:unless="${loggedIn}" ><a href="login">Login</a></li>
+              <li th:unless="${loggedIn}" ><a href="register">Register</a></li>
+              <!-- Render logout link if logged in -->
+              <li th:if="${loggedIn}" ><a href="logout">Logout</a></li>
+              <li th:if="${loggedIn}" ><a href="reservations">Reservations</a></li>
+              <li th:if="${isCrew}" ><a href="assignments">Assignments</a></li>
+            </ul>
+          </div>
+          <div class="nav-content">
+            <ul class="tabs tabs-transparent">
+              <li class="tab"><a  href="flight_managerTH">Home</a></li>
+              <li class="tab"><a class="active"  href="flights">Flights</a></li>
+              <li class="tab"><a href="reservations">Reservations</a></li>
+              <li th:if="${isCrew}" ><a href="assignments">Assignments</a></li>
+            </ul>
+          </div>
         </nav>
-    </nav>
+      </nav>
 
     <!-- Filter Form -->
     <div class="container">
-        <div class="section">
+        <div class="section filter-section">
             <div class="row">
                 <div class="col s12">
-                    <form action="/flights" method="GET">
-                        <div class="input-field col s12 m6">
-                            <i class="material-icons prefix">calendar_today</i>
-                            <input id="departureDate" type="text" class="datepicker" name="departureDate">
-                            <label for="departureDate">Departure Date</label>
+                    <div class="card-panel">
+                        <h5 class="center-align">Filter Flights</h5>
+                        <div class="row">
+                            <form class="col s12" action="/flights" method="GET">
+                                <div class="input-field col s12 m6">
+                                    <i class="material-icons prefix">calendar_today</i>
+                                    <input id="departureDate" type="text" class="datepicker" name="departureDate">
+                                    <label for="departureDate">Departure Date</label>
+                                </div>
+                                <div class="input-field col s12 m6">
+                                    <i class="material-icons prefix">flight_takeoff</i>
+                                    <input id="sourceAirportCode" type="text" name="sourceAirportCode">
+                                    <label for="sourceAirportCode">Source Airport Code</label>
+                                </div>
+                                <!-- Add more filter options as needed -->
+                                <div class="input-field col s12 m6">
+                                    <i class="material-icons prefix">flight_takeoff</i>
+                                    <input id="destinationAirportCode" type="text" name="destinationAirportCode">
+                                    <label for="destinationAirportCode">Destination Airport Code</label>
+                                </div>
+                                <div class="col s12">
+                                    <button class="btn waves-effect waves-light" type="submit">Apply Filter</button>
+                                </div>
+                            </form>
                         </div>
-                        <div class="input-field col s12 m6">
-                            <i class="material-icons prefix">flight_takeoff</i>
-                            <input id="sourceAirportCode" type="text" name="sourceAirportCode">
-                            <label for="sourceAirportCode">Source Airport Code</label>
-                        </div>
-                        <!-- Add more filter options as needed -->
-                        <div class="input-field col s12 m6">
-                          <i class="material-icons prefix">flight_takeoff</i>
-                          <input id="destinationAirportCode" type="text" name="destinationAirportCode">
-                          <label for="destinationAirportCode">Destination Airport Code</label>
-                      </div>
-                        <div class="col s12">
-                            <button class="btn waves-effect waves-light" type="submit">Apply Filter</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -69,37 +92,49 @@
     <!-- Display filtered flights -->
     <div class="container">
         <div class="section">
-            <table class="highlight">
-                <thead>
-                    <tr>
-                        <th>Flight Number</th>
-                        <th>Departure Time</th>
-                        <th>Arrival Time</th>
-                        <th>Source Airport</th>
-                        <th>Destination Airport</th>
-                        <th>Available Seats</th>
-                        <th>Price</th>
-                        <th>Actions</th> <!-- New column for reservation button -->
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="flight : ${flights}">
-                        <td th:text="${flight.flightNumber}"></td>
-                        <td th:text="${flight.departureTime}"></td>
-                        <td th:text="${flight.arrivalTime}"></td>
-                        <td th:text="${flight.sourceAirportCode}"></td>
-                        <td th:text="${flight.destinationAirportCode}"></td>
-                        <td th:text="${flight.availableSeats}"></td>
-                        <td th:text="${flight.price}"></td>
-                        <td>
-                            <form th:action="@{'/makeReservation/' + ${flight.flightNumber}}" method="post">  
-                                <button type="submit" class="btn waves-effect waves-light">Make Reservation</button>
-                            </form>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="scrollable-table">
+                <table class="highlight">
+                    <thead>
+                        <tr>
+                            <th>Flight Number</th>
+                            <th>Departure Time</th>
+                            <th>Arrival Time</th>
+                            <th>Source Airport</th>
+                            <th>Destination Airport</th>
+                            <th>Available Seats</th>
+                            <th>Price</th>
+                            <th>Actions</th> <!-- New column for reservation button -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="flight : ${flights}">
+                            <td th:text="${flight.flightNumber}"></td>
+                            <td th:text="${flight.departureTime}"></td>
+                            <td th:text="${flight.arrivalTime}"></td>
+                            <td th:text="${flight.sourceAirportCode}"></td>
+                            <td th:text="${flight.destinationAirportCode}"></td>
+                            <td th:text="${flight.availableSeats}"></td>
+                            <td th:text="${flight.price}"></td>
+                            <td>
+                                <form th:action="@{'/makeReservation/' + ${flight.flightNumber}}" method="post">  
+                                    <button type="submit" class="btn waves-effect waves-light" th:if="${isUser}">Make Reservation</button>
+                                </form>
+                                <form th:action="@{'/deleteFlight/' + ${flight.id}}" method="post">  
+                                    <button type="submit" class="btn waves-effect waves-light" th:if="${isAdmin}">Delete flight</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+    </div>
+
+    <!-- "Create Flight" button -->
+    <div class="fixed-action-btn">
+        <a href="/createFlight" class="btn-floating btn-large red" th:if="${isAdmin}">
+            <i class="large material-icons">add</i>
+        </a>
     </div>
 
     <!-- JavaScript and other scripts -->

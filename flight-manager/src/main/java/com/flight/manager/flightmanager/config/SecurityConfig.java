@@ -31,13 +31,17 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/register/**").permitAll()
                                 .requestMatchers("/index").permitAll()
-                                .requestMatchers("/users").hasRole("ADMIN")
+                                .requestMatchers("/users/**").hasRole("ADMIN")
+                                .requestMatchers("/updateUser/**").hasRole("ADMIN")
                                 .requestMatchers("flight_managerTH/**").permitAll()
                                 .requestMatchers("/static/**").permitAll()
                                 .requestMatchers("/flights/**").permitAll()
                                 .requestMatchers("/makeReservation/**").permitAll()
                                 .requestMatchers("/reserve/**").permitAll()
                                 .requestMatchers("/reservations/**").permitAll()
+                                .requestMatchers("/assignments/**").permitAll()
+                                .requestMatchers("/deleteFlight/**").permitAll()
+                                .requestMatchers("/createFlight/**").hasRole("ADMIN")
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
