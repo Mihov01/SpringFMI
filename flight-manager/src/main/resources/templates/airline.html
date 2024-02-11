@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Parallax Template - Materialize</title>
+    <title>All Assignments</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="../static/parallax-template/logo.jpg" type="image/x-icon">
@@ -11,7 +11,9 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="../static/parallax-template/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="../static/parallax-template/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link rel="stylesheet" type="text/css" href="../static/parallax-template/css/users.css">
+
+    <link rel="stylesheet" type="text/css" href="../static/parallax-template/css/assignments.css">
+    
 </head>
 <body>
     <nav class="white" role="navigation">
@@ -24,6 +26,7 @@
               <li th:unless="${isCrew}"><a href="flights">Flights</a></li>
               <li th:unless="${loggedIn}" ><a href="login">Login</a></li>
               <li th:unless="${loggedIn}" ><a href="register">Register</a></li>
+              <!-- Render logout link if logged in -->
               <li th:if="${loggedIn}" ><a href="logout">Logout</a></li>
               <li th:if="${isUser}" ><a href="reservations">Reservations</a></li>
               <li th:if="${isCrew}" ><a href="assignments">My Assignments</a></li>
@@ -47,41 +50,37 @@
       </nav>
     
 
-    <!-- Display filtered flights -->
+    <!-- Display assignments -->
     <div class="container">
-        <div class="section table-section">
-            <div class="scrollable-table">
-                <table class="highlight">
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Actions</th> <!-- New column for actions -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="user : ${allUsers}">
-                            <td th:text="${user.username}"></td>
-                            <td th:text="${user.firstName}"></td>
-                            <td th:text="${user.lastName}"></td>
-                            <td th:text="${user.email}"></td>
-                            <td th:text="${user.role}"></td>
-                            <td>
-                                <form th:action="@{'users/deleteUser/' + ${user.id}}" method="post">  
-                                    <button type="submit" class="btn waves-effect waves-light">Delete</button>
-                                </form>
-                                <form th:action="@{'updateUser/' + ${user.id}}" method="get">  
-                                    <button type="submit" class="btn waves-effect waves-light">Update</button>
-                                </form>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="section">
+            <table class="highlight scrollable-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Country</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Iterate over assignments -->
+                    <tr th:each="airline : ${airlines}">
+                        <td th:text="${airline.name}"></td>
+                        <td th:text="${airline.country}"></td>
+                            <!-- Add delete button with form -->
+                        <td>
+                            <form th:action="@{'deleteAirline/' + ${airline.id} }" method="post">  
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+    </div>
+
+    <div class="fixed-action-btn">
+        <a href="/addAirline" class="btn-floating btn-large red" th:if="${isAdmin}">
+            <i class="large material-icons">add</i>
+        </a>
     </div>
 
     <!-- JavaScript and other scripts -->

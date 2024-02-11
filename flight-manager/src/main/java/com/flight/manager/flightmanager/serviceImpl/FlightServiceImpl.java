@@ -70,18 +70,7 @@ public class FlightServiceImpl implements FlightService {
 
     }
 
-    @Override 
-    public FlightDTO updateFlight(FlightDTO flightDTO)  {
-    Optional<Flight> existingFlight = flightRepository.findById(flightDTO.getId());
-    
-    if (!existingFlight.isPresent()) {
-      // TODO Exception here
-    }
-    
-   /// Flight updatedFlight = flightRepository.save(flightMapper.toFlightEntity(flightDTO));
-    
-    return null;
-}
+
 
 @Override
 public FlightDTO  getById ( Long id ){
@@ -90,7 +79,7 @@ public FlightDTO  getById ( Long id ){
     Optional<Flight> foundFlight = flightRepository.findById(id);
     if(foundFlight.isEmpty())
     {
-        //todo Throw an error
+       throw new EntityNotFoundException();
     }
 
     return flightMapper.toFlightDTO(foundFlight.get());
@@ -113,7 +102,6 @@ public FlightDTO deleteById(Long id)  {
 }
 
 
-// TODO make reservaton service and handle it there
 @Override
 public List<FlightDTO> getAllAvailableFlightsBetween(String source , String destinationAirportCode){
 
@@ -150,6 +138,8 @@ public List<Flight> getFilteredFlights(LocalDateTime departureDate, String sourc
         if (!destinationAirportCode.isBlank()) {
             spec = spec.and((root, query, builder) -> builder.equal(root.get("destinationAirportCode"), destinationAirportCode));
         }
+
+        spec = spec.and((root, query, builder) -> builder.equal(root.get("isDeleted"), false));
 
         return flightRepository.findAll(spec);
 }

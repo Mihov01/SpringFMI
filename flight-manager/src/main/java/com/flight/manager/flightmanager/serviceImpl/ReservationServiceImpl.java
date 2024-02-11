@@ -25,6 +25,7 @@ import jakarta.persistence.EntityNotFoundException;
 public class ReservationServiceImpl  implements ReservationService{
     
 
+
     private final UserRepo userRepo;
     private final  FlightRepository flightRepository;
     private final ReservationMapper reservationMapper;
@@ -35,6 +36,7 @@ public class ReservationServiceImpl  implements ReservationService{
          this.flightRepository=flightRepository;
          this.reservationMapper = reservationMapper;
          this.reservationRepository= reservationRepository;
+        
     }
 
 
@@ -60,7 +62,6 @@ public class ReservationServiceImpl  implements ReservationService{
         flightRepository.save(f);
 
         reservationRepository.save(reservationDTO);
-       
         
         return reservationDTO;
         

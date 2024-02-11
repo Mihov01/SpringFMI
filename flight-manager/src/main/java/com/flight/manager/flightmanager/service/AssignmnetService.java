@@ -10,4 +10,6 @@ public interface AssignmnetService {
 
     List<AssignmentDTO> getAssinments(User user);
     List<AssignmentDTO> getAllAssinments();
+    AssignmentDTO saveAssignment(User user , AssignmentDTO ass);
+    void deleteAssignment(String userName , String flightNumber);
 }

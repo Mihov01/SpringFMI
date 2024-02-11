@@ -27,8 +27,4 @@ public class Airport {
 
     @OneToMany(mappedBy = "destinationAirportCode")
     private List<Flight> arrivingFlights;
-
-    // Other necessary fields and relationships
-
-    // Getters and setters
 }

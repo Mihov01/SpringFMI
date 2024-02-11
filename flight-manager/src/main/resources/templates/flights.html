@@ -11,19 +11,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="../static/parallax-template/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="../static/parallax-template/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <style>
-        /* CSS for table scrolling */
-        .scrollable-table {
-            max-height: 400px; /* Set your desired max height */
-            overflow-y: auto;
-        }
-
-        /* Adjust filter section margin */
-        .filter-section {
-            margin-top: 20px; /* Adjust as needed */
-            margin-bottom: 20px; /* Adjust as needed */
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="../static/parallax-template/css/flights.css">
+   
 </head>
 <body>
     <nav class="white" role="navigation">
@@ -32,26 +21,33 @@
             <a href="#" class="brand-logo"><img src="../static/parallax-template/logo.jpg"></a>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-              <li><a href="flight_managerTH">Home</a></li>
-              <li><a href="flights">Flights</a></li>
+              <li><a href="home">Home</a></li>
+              <li th:unless="${isCrew}"><a href="flights">Flights</a></li>
               <li th:unless="${loggedIn}" ><a href="login">Login</a></li>
               <li th:unless="${loggedIn}" ><a href="register">Register</a></li>
               <!-- Render logout link if logged in -->
               <li th:if="${loggedIn}" ><a href="logout">Logout</a></li>
-              <li th:if="${loggedIn}" ><a href="reservations">Reservations</a></li>
-              <li th:if="${isCrew}" ><a href="assignments">Assignments</a></li>
+              <li th:if="${isUser}" ><a href="reservations">Reservations</a></li>
+              <li th:if="${isCrew}" ><a href="assignments">My Assignments</a></li>
+              <li th:if="${isAdmin}" ><a href="users">Users</a></li>
+              <li th:if="${isAdmin}" ><a href="airline">Airlines</a></li>
+              <li th:if="${isAdmin}" ><a href="allAssignments">Assignments</a></li>
             </ul>
           </div>
           <div class="nav-content">
             <ul class="tabs tabs-transparent">
-              <li class="tab"><a  href="flight_managerTH">Home</a></li>
-              <li class="tab"><a class="active"  href="flights">Flights</a></li>
-              <li class="tab"><a href="reservations">Reservations</a></li>
-              <li th:if="${isCrew}" ><a href="assignments">Assignments</a></li>
+              <li class="tab"><a class="active" href="home">Home</a></li>
+              <li th:unless="${isCrew}" class="tab"><a href="flights">Flights</a></li>
+              <li th:if="${isUser}"class="tab"><a href="reservations">Reservations</a></li>
+              <li th:if="${isCrew}" class="tab" ><a href="assignments">My Assignments</a></li>
+              <li th:if="${isAdmin}" class="tab" ><a href="users">Users</a></li>
+              <li th:if="${isAdmin}" class="tab" ><a href="airline">Airlines</a></li>
+              <li th:if="${isAdmin}" class="tab" ><a href="allAssignments">Assignments</a></li>
             </ul>
           </div>
         </nav>
       </nav>
+    
 
     <!-- Filter Form -->
     <div class="container">

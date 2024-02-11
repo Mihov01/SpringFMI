@@ -1,0 +1,33 @@
+body {
+    padding-top: 40px;
+}
+.container {
+    width: 80%;
+    margin: auto;
+}
+form {
+    margin-top: 40px;
+}
+label {
+    font-weight: bold;
+    color: #333;
+}
+input[type="text"], input[type="number"], input[type="datetime-local"] {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 15px 20px;
+    cursor: pointer;
+    width: 100%;
+}
+button[type="submit"]:hover {
+    background-color: #45a049;
+}

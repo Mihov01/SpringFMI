@@ -2,6 +2,7 @@ package com.flight.manager.flightmanager.serviceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,8 @@ import com.flight.manager.flightmanager.repository.AssignmentRepo;
 import com.flight.manager.flightmanager.repository.FlightRepository;
 import com.flight.manager.flightmanager.repository.UserRepo;
 import com.flight.manager.flightmanager.service.AssignmnetService;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class AssignmentServiceImpl implements AssignmnetService {
@@ -57,10 +60,11 @@ public class AssignmentServiceImpl implements AssignmnetService {
     public List<AssignmentDTO> getAllAssinments(){
 
 
-        List<AssignmentDTO> res = new ArrayList<>();
+     List<AssignmentDTO> res = new ArrayList<>();
 
       List<User> users= userRepo.findAll();
 
+      System.out.println(users.size());
         
         for(User us : users){
             List<AssignmentDTO> res1 = new ArrayList<>();
@@ -69,5 +73,55 @@ public class AssignmentServiceImpl implements AssignmnetService {
         }
         return res;
           
+    }
+
+
+    @Override
+    public AssignmentDTO saveAssignment(User user , AssignmentDTO ass){
+        CrewAssignment assignment = new CrewAssignment();
+
+       Optional< Flight> f = flightRepository.findByFlightNumber(ass.getFlightNumber());
+
+      Optional< User> u = userRepo.findByUsername(ass.getUserName());
+
+      if(u.isEmpty()){
+        throw new EntityNotFoundException("No such user");
+      }
+
+       if(f.isEmpty()){
+        throw new EntityNotFoundException("No such flight");
+       }
+        assignment.setCrewMember(u.get());
+        assignment.setRole(ass.getRole());
+        assignment.setFlight(f.get());
+
+        assignmentRepo.save(assignment);
+
+        return ass;
+
+    }
+
+    @Override
+    public void deleteAssignment(String userName , String flightNumber){
+
+        
+       Optional< Flight> f = flightRepository.findByFlightNumber(flightNumber);
+
+       Optional< User> u = userRepo.findByUsername(userName);
+ 
+       if(u.isEmpty()){
+         throw new EntityNotFoundException("No such user");
+       }
+ 
+        if(f.isEmpty()){
+         throw new EntityNotFoundException("No such flight");
+        }
+
+        Optional<CrewAssignment> crew = assignmentRepo.getAssignment(u.get().getId(), f.get().getId());
+        if(crew.isEmpty()){
+            throw new EntityNotFoundException("No such assignment");
+        }
+
+        assignmentRepo.deleteById(crew.get().getId());
     }
 }

@@ -32,27 +32,12 @@ import java.util.List;
 public class FlightController {
 
     private final FlightService flightService;
-    private final ReservationService reservationService;
-    private final AssignmnetService assignmnetService;
-    private final UserService service;
-
+    
+    
 
     FlightController(FlightService flightService, ReservationService reservationService ,
      AssignmnetService assignmnetService, UserService service){
         this.flightService = flightService;
-        this.reservationService = reservationService;
-        this.assignmnetService = assignmnetService;
-        this.service=service;
-    }
-
-    // Method to fetch flight data (Replace this with your actual data retrieval logic)
-    private List<Flight> getFlightData() {
-        // Simulated flight data generation
-        List<Flight> flights = new ArrayList<>();
-       
-        // Add more flights or retrieve data from your database or service
-
-        return flights;
     }
 
 
@@ -107,109 +92,6 @@ public class FlightController {
     }
     
 
-
-    @PostMapping(value = "makeReservation/{flightNumber}")
-    public String test(@PathVariable String flightNumber, Model model){
-
-
-        System.out.println(flightNumber);
-        model.addAttribute("flightNumber", flightNumber);
-        return "payment";
-    }
-
-
-    @PostMapping(value = "reserve/{flightNumber}")
-    public String makeReservation(@PathVariable String flightNumber , Model model){
-        System.out.println(flightNumber);
-         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-         if (authentication != null && authentication.getPrincipal() instanceof User) {
-            // Get the UserDetails object which contains user details
-            User user = (User) authentication.getPrincipal();
-            reservationService.makeReservation(user, flightNumber);
-         }
-         return "redirect:/reservations";
-         
-    }
-
-    @GetMapping(value="reservations")
-    public String getReservations(Authentication authentication ,Model model){
-        
-
-        boolean loggedIn = false;
-        boolean isCrew = false;
-        boolean isUser = false;
-        boolean isAdmin = false;
-        if (authentication != null && authentication.isAuthenticated()) {
-            loggedIn = true;
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof User) {
-                User user = (User) principal;
-                // Assuming getRoles() returns a list of roles for the user
-                Role role = user.getRole();
-                if(role == Role.ROLE_CREW){
-                    isCrew = true;
-                    
-                }else if (role == Role.ROLE_USER){
-                    isUser =true;
-
-                }else if ( role == Role.ROLE_ADMIN){
-                    isAdmin = true;
-                }
-            }
-            User user = (User) authentication.getPrincipal();
-            List<Flight> flights = reservationService.getrReservations(user);
-            model.addAttribute("flights", flights);
-        }
-         
-        model.addAttribute("loggedIn", loggedIn);
-        model.addAttribute("isCrew", isCrew);
-        model.addAttribute("isUser", isUser);
-        model.addAttribute("isAdmin", isAdmin);
-        
-        return "reservations";
-    }
-
-
-    @GetMapping(value="assignments")
-    public String getAssignments(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        boolean loggedIn = false;
-        boolean isCrew = false;
-        boolean isUser = false;
-        boolean isAdmin = false;
-        if (authentication != null && authentication.isAuthenticated()) {
-            loggedIn = true;
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof User) {
-                User user = (User) principal;
-                // Assuming getRoles() returns a list of roles for the user
-                Role role = user.getRole();
-                if(role == Role.ROLE_CREW){
-                    isCrew = true;
-                    
-                }else if (role == Role.ROLE_USER){
-                    isUser =true;
-
-                }else if ( role == Role.ROLE_ADMIN){
-                    isAdmin = true;
-                }
-            }
-             // Get the UserDetails object which contains user details
-           User user = (User) authentication.getPrincipal();
-           List<AssignmentDTO> flights = assignmnetService.getAssinments(user);
-           model.addAttribute("flights", flights);
-        }
-       
-       
-        model.addAttribute("loggedIn", loggedIn);
-        model.addAttribute("isCrew", isCrew);
-        model.addAttribute("isUser", isUser);
-        model.addAttribute("isAdmin", isAdmin);
-        return "assignments";
-    }
-
     @PostMapping(value = "deleteFlight/{flightId}")
     public String deleteFlight(@PathVariable Long flightId){
         flightService.deleteById(flightId);
@@ -229,111 +111,6 @@ public class FlightController {
        
         flightService.addFlight(flightDTO);
         return "redirect:/flights";
-    }
-
-
-    @GetMapping(value = "users")
-    public String getUsers(Authentication authentication ,Model model){
-        boolean loggedIn = false;
-        boolean isCrew = false;
-        boolean isUser = false;
-        boolean isAdmin = false;
-        if (authentication != null && authentication.isAuthenticated()) {
-            loggedIn = true;
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof User) {
-                User user = (User) principal;
-                // Assuming getRoles() returns a list of roles for the user
-                Role role = user.getRole();
-                if(role == Role.ROLE_CREW){
-                    isCrew = true;
-                    
-                }else if (role == Role.ROLE_USER){
-                    isUser =true;
-
-                }else if ( role == Role.ROLE_ADMIN){
-                    isAdmin = true;
-                }
-            }
-        }
-       
-       
-        model.addAttribute("loggedIn", loggedIn);
-        model.addAttribute("isCrew", isCrew);
-        model.addAttribute("isUser", isUser);
-        model.addAttribute("isAdmin", isAdmin);
-        List<User> us= service.getAllUsers();
-        model.addAttribute("allUsers", us); 
-        return "users";
-    }
-
-
-    @PostMapping(value = "users/deleteUser/{userId}")
-    public String deleteUser(@PathVariable Long userId){
-        service.delete(userId);
-        return "redirect:/users";
-    }
-    
-
-    @GetMapping("updateUser/{userId}")
-    public String showUpdateUserPage(@PathVariable Long userId, Model model) {
-        User user = service.getUserById(userId).get(); // Implement this method in your UserService
-        model.addAttribute("user", user);
-        return "updateUser";
-    }
-
-    @PostMapping("updateUser")
-    public String showUpdateUserPage(@ModelAttribute("user") User user , Model model) {
-        service.update(user);
-        return "redirect:/users";
-    }
-
-
-    @GetMapping(value="allAssignments")
-    public String getAllAssignments(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        boolean loggedIn = false;
-        boolean isCrew = false;
-        boolean isUser = false;
-        boolean isAdmin = false;
-        if (authentication != null && authentication.isAuthenticated()) {
-            loggedIn = true;
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof User) {
-                User user = (User) principal;
-                // Assuming getRoles() returns a list of roles for the user
-                Role role = user.getRole();
-                if(role == Role.ROLE_CREW){
-                    isCrew = true;
-                    
-                }else if (role == Role.ROLE_USER){
-                    isUser =true;
-
-                }else if ( role == Role.ROLE_ADMIN){
-                    isAdmin = true;
-                }
-            }
-             // Get the UserDetails object which contains user details
-           User user = (User) authentication.getPrincipal();
-           List<AssignmentDTO> flights = assignmnetService.getAllAssinments();
-           model.addAttribute("assignments", flights);
-        }
-       
-       
-        model.addAttribute("loggedIn", loggedIn);
-        model.addAttribute("isCrew", isCrew);
-        model.addAttribute("isUser", isUser);
-        model.addAttribute("isAdmin", isAdmin);
-        return "assignments";
-    }
-
-
-
-    @PostMapping(value =  "deleteAssignment/{id}")
-    public String deleteAssignment(@PathVariable Long id){
-
-        return "redirect:/allAssignments";
     }
 
 

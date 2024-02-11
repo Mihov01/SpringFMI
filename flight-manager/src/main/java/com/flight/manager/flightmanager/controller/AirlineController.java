@@ -1,116 +1,89 @@
 package com.flight.manager.flightmanager.controller;
 
+import static com.flight.manager.flightmanager.model.Role.ROLE_ADMIN;
+
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.flight.manager.flightmanager.dto.AirlineDTO;
-import com.flight.manager.flightmanager.dto.FlightDTO;
+import com.flight.manager.flightmanager.model.Role;
+import com.flight.manager.flightmanager.model.User;
 import com.flight.manager.flightmanager.service.AirlineService;
-import com.flight.manager.flightmanager.service.FlightService;
-@RestController
-@RequestMapping(value = "/flight_manager")
+
+@Controller
 public class AirlineController {
     
     private final AirlineService airlineService;
-    private final FlightService flightService;
 
-
-    AirlineController(AirlineService airlineService , FlightService flightService)
-    {
+    AirlineController(AirlineService airlineService) {
         this.airlineService = airlineService;
-        this.flightService = flightService;
     }
 
-    @GetMapping
-    ResponseEntity<List<AirlineDTO>> getAirlines()
-    {
-        return ResponseEntity.ok().body(airlineService.getAllAirlines());
+ 
+    @GetMapping(value = "addAirline")
+    public String showAddForm(Model model) {
+        model.addAttribute("airline", new AirlineDTO());
+        return "add_airline"; // Thymeleaf file for adding an airline: add_airline.html
     }
 
-    @GetMapping(value = "/{id}")
-    ResponseEntity<AirlineDTO> getbyId(@PathVariable Long id)
-    {
-      AirlineDTO  result = airlineService.getById(id);
-      return ResponseEntity.ok(result);
+    @PostMapping(value = "addAirline")
+    public String addAirline(@ModelAttribute("airline") AirlineDTO airline, RedirectAttributes redirectAttributes) {
+        AirlineDTO created = airlineService.createAirline(airline);
+        redirectAttributes.addFlashAttribute("message", "Airline added successfully");
+        return "redirect:/airline"; // Redirect to the airline list after addition
     }
 
-      @GetMapping(value = "/name/{name}")
-    ResponseEntity<AirlineDTO> getbyName(@PathVariable String name)
-    {
-      AirlineDTO  result = airlineService.getByName(name);
-      return ResponseEntity.ok(result);
-    }
+    @GetMapping(value = "airline")
+    public String getAirlines ( Authentication authentication , Model model){
+        List<AirlineDTO> airlines = airlineService.getAllAirlines();
+        boolean loggedIn = false;
+        boolean isCrew = false;
+        boolean isUser = false;
+        boolean isAdmin = false;
+        if (authentication != null && authentication.isAuthenticated()) {
+            loggedIn = true;
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof User) {
+                User user = (User) principal;
+                // Assuming getRoles() returns a list of roles for the user
+                Role role = user.getRole();
+                if(role == Role.ROLE_CREW){
+                    isCrew = true;
+                    
+                }else if (role == Role.ROLE_USER){
+                    isUser =true;
 
-    @PostMapping
-    ResponseEntity<AirlineDTO> createAirline(@RequestBody AirlineDTO airline)
-    {
-     AirlineDTO created = airlineService.createAirline(airline);
-     return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().pathSegment("{id}").build(created.getId())).body(created);
-    }
+                }else if (role == ROLE_ADMIN){
+                    isAdmin = true;
+                }
+            }
+        }
+        model.addAttribute("airlines", airlines);
 
-    @PutMapping
-    ResponseEntity<AirlineDTO> updateAirline(@RequestBody AirlineDTO airline)
-    {
-    
-        AirlineDTO updated = airlineService.updateAirline(airline);
-
-        return ResponseEntity.ok(updated);
-    }
-
-    @DeleteMapping(value = "/delete/{id}")
-    ResponseEntity<AirlineDTO> deleteAirline(@PathVariable Long id)
-    {
-        AirlineDTO deleted = airlineService.deleteAirline(id);
-
-        return ResponseEntity.ok(deleted);
-    }
-
-
-    @GetMapping(value = "/flights")
-    List<FlightDTO> getFlights()
-    {
-      return flightService.getAllFlights();
-    }
-
-    @PostMapping(value = "/flights/add")
-    ResponseEntity<FlightDTO> addFlight(@RequestBody FlightDTO flightDTO)
-    {
-      System.out.println(flightDTO.getAvailableSeats());
-      FlightDTO created =  flightService.addFlight(flightDTO);
-        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().pathSegment("{id}").build(created.getId())).body(created);
+        model.addAttribute("loggedIn", loggedIn);
+        model.addAttribute("isCrew", isCrew);
+        model.addAttribute("isUser", isUser);
+        model.addAttribute("isAdmin", isAdmin);
+        model.addAttribute("airlines", airlines);
+        return "airline";
     }
 
 
-    @PutMapping(value = "/flights/update")
-    FlightDTO updateFlight (@RequestBody FlightDTO flightDTO){
-      return flightService.updateFlight(flightDTO);
-    }
 
-    @GetMapping(value = "/flights/{id}")
-    FlightDTO getById(@PathVariable Long id){
-      return flightService.getById(id);
-    }
 
-    @DeleteMapping(value = "flights/delete/{id}")
-    FlightDTO deleteById(@PathVariable Long id){
-      return flightService.deleteById(id);
+    @PostMapping(value = "/deleteAirline/{id}")
+    public String deleteAirline(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        airlineService.deleteAirline(id);
+        redirectAttributes.addFlashAttribute("message", "Airline deleted successfully");
+        return "redirect:/airline"; // Redirect to the airline list after deletion
     }
-
-    @GetMapping(value = "flights/findAvaliable/{start}/{end}")
-    List<FlightDTO> getAllAvaliable(@PathVariable String sstart , @PathVariable String end){
-      return flightService.getAllAvailableFlightsBetween(sstart, end);
-    }
-
-  
 }

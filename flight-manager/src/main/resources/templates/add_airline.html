@@ -1,35 +1,50 @@
-<!-- Thymeleaf file for adding an airline -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>Add Airline</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        h1 {
-            text-align: center;
-        }
-        form {
-            width: 50%;
-            margin: 0 auto;
-        }
-        input[type="text"], button {
-            margin-bottom: 10px;
-            padding: 8px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/parallax-template/css/addAirline.css">
 </head>
 <body>
-    <h1>Add Airline</h1>
-    <form th:action="@{/flight_managerTH/add}" method="post" th:object="${airline}">
-        <input type="text" th:field="*{name}" placeholder="Enter Airline Name" />
-        <input type="text" th:field="*{country}" placeholder="Enter Airline Country" />
-        <!-- Other input fields for adding airline properties -->
-        <button type="submit">Add Airline</button>
-    </form>
+    <div class="container">
+        <h1>Add Airline</h1>
+        <form th:action="@{/addAirline}" method="post" th:object="${airline}" onsubmit="return validateForm()">
+            <input type="text" th:field="*{name}" placeholder="Enter Airline Name" required>
+            <input type="text" th:field="*{country}" placeholder="Enter Airline Country" required>
+            <!-- Other input fields for adding airline properties -->
+            <button type="submit">Add Airline</button>
+        </form>
+    </div>
+
+    <!-- Materialize JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        function validateForm() {
+            var inputs = document.getElementsByTagName('input');
+            var isValid = true;
+
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].hasAttribute('required') && !inputs[i].value.trim()) {
+                    var errorMessage = inputs[i].getAttribute('placeholder') + " is required";
+                    displayErrorMessage(inputs[i], errorMessage);
+                    isValid = false;
+                } else {
+                    hideErrorMessage(inputs[i]);
+                }
+            }
+
+            return isValid;
+        }
+
+        function displayErrorMessage(input, message) {
+            var errorElement = input.parentElement.querySelector('.error-message');
+            errorElement.innerHTML = message;
+        }
+
+        function hideErrorMessage(input) {
+            var errorElement = input.parentElement.querySelector('.error-message');
+            errorElement.innerHTML = "";
+        }
+    </script>
 </body>
 </html>

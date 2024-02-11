@@ -1,0 +1,10 @@
+  /* CSS for table scrolling */
+  .scrollable-table {
+    max-height: 400px; /* Set your desired max height */
+    overflow-y: auto;
+}
+
+/* Adjust table margin */
+.table-section {
+    margin-top: 20px; /* Adjust as needed */
+}

@@ -5,24 +5,9 @@
     <title>Create Flight</title>
     <!-- Materialize CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
+    <link rel="stylesheet" type="text/css" href="../static/parallax-template/css/create_flight.css">
     <!-- Custom Styles -->
-    <style>
-        body {
-            padding-top: 40px;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-        }
-        form {
-            margin-top: 40px;
-        }
-        label {
-            font-weight: bold;
-            position: relative;
-        }
-    </style>
+
 </head>
 <body>
     <nav class="white" role="navigation">
@@ -49,7 +34,7 @@
 
     <div class="container">
         <h2 class="center-align">Create Flight</h2>
-        <form action="#" th:action="@{/createFlight}" method="post" class="col s12">
+        <form action="#" th:action="@{/createFlight}" method="post" class="col s12" novalidate>
             <div class="row">
                 <div class="input-field col s6">
                     <input id="flightNumber" type="text" class="validate" name="flightNumber" required>
@@ -85,8 +70,6 @@
                     <input id="price" type="number" class="validate" name="price" required>
                     <label for="price">Price</label>
                 </div>
-            </div>
-            <div class="row">
                 <div class="input-field col s6">
                     <input id="airlineName" type="text" class="validate" name="airlineName" required>
                     <label for="airlineName">Airline Name</label>

@@ -7,48 +7,7 @@
     <!-- Materialize CSS -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            width: 50%;
-            margin: 0 auto;
-        }
-
-        form {
-            margin-top: 50px;
-        }
-
-        label {
-            font-weight: bold;
-        }
-
-        input[type="text"],
-        input[type="email"] {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        button[type="submit"] {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button[type="submit"]:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="../static/parallax-template/css/addAssignment.css">
 </head>
 <body>
     <div class="container">
@@ -56,34 +15,25 @@
         <form action="/saveAssignment" method="post">
             <div>
                 <label for="userName">User Name:</label>
-                <input type="text" id="userName" name="userName">
+                <input type="text" id="userName" name="userName" required>
             </div>
             <div>
                 <label for="flightNumber">Flight Number:</label>
-                <input type="text" id="flightNumber" name="flightNumber">
-            </div>
-            <div>
-                <label for="departureTime">Departure Time:</label>
-                <input type="text" id="departureTime" name="departureTime">
-            </div>
-            <div>
-                <label for="arrivalTime">Arrival Time:</label>
-                <input type="text" id="arrivalTime" name="arrivalTime">
-            </div>
-            <div>
-                <label for="sourceAirportCode">Source Airport Code:</label>
-                <input type="text" id="sourceAirportCode" name="sourceAirportCode">
-            </div>
-            <div>
-                <label for="destinationAirportCode">Destination Airport Code:</label>
-                <input type="text" id="destinationAirportCode" name="destinationAirportCode">
+                <input type="text" id="flightNumber" name="flightNumber" required>
             </div>
             <div>
                 <label for="role">Role:</label>
-                <input type="text" id="role" name="role">
+                <input type="text" id="role" name="role" required>
             </div>
             <button type="submit" class="btn">Add Assignment</button>
         </form>
+        <!-- Add Assignment button -->
+        <div class="add-button">
+            <a href="/allAssignments" class="btn">Back to All Assignments</a>
+        </div>
     </div>
+
+    <!-- Materialize JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>

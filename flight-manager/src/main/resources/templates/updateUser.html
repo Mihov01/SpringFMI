@@ -4,58 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update User</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-        label {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        input {
-            padding: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href= "../static/parallax-template/css/update_user.css">
+    
 </head>
 <body>
     <div class="container">
         <h2>Update User</h2>
-        <form action="/updateUser" method="post">
+        <form action="/updateUser" method="post" novalidate>
             <div>
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" th:value="${user.username}" required />
